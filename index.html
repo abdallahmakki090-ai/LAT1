@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>بوابة أعضاء اترك أثر</title>
+
+  <!-- أيقونات -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-box {
+      background: #ffffff;
+      padding: 40px;
+      width: 360px;
+      border-radius: 18px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-box h2 {
+      color: #ff6f00;
+      margin-bottom: 30px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 45px 14px 15px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    .input-group i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #aaa;
+      transition: 0.3s;
+    }
+
+    .input-group input:focus {
+      border-color: #ff6f00;
+      box-shadow: 0 0 8px rgba(255,111,0,0.4);
+      outline: none;
+    }
+
+    .input-group input:focus + i {
+      color: #ff6f00;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ff6f00, #ff8f00);
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover {
+      transform: scale(1.02);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    #msg {
+      margin-top: 20px;
+      font-size: 15px;
+    }
+
+    .shake {
+      animation: shake 0.4s;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="login-box" id="box">
+  <h2> تسجيل دخول الأعضاء </h2>
+
+  <div class="input-group">
+    <input type="email" id="email" placeholder="البريد الإلكتروني">
+    <i class="fa fa-envelope"></i>
+  </div>
+
+  <div class="input-group">
+    <input type="password" id="password" placeholder="كلمة المرور">
+    <i class="fa fa-lock"></i>
+  </div>
+
+  <button onclick="login()">دخول</button>
+
+  <p id="msg"></p>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyA9NUpJ0-VFeAz6vC8OiF9GWfPZpUhtLgs",
+    authDomain: "leave-atrace.firebaseapp.com"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  function login() {
+    const email = email.value;
+    const password = password.value;
+    const msg = document.getElementById("msg");
+    const box = document.getElementById("box");
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(() => {
+      window.location.href = "dashboard.html";
+    });
+      .catch(() => {
+        msg.style.color = "red";
+        msg.innerHTML = "بيانات الدخول غير صحيحة";
+        box.classList.add("shake");
+        setTimeout(() => box.classList.remove("shake"), 400);
+      });
+  }
+</script>
+
+</body>
+</html>
